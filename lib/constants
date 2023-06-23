@@ -1,0 +1,4 @@
+const String  HomeScreen = '/';
+const String FeedScreen = '/feed';
+const String FavoritesScreen = '/favourites';
+const String SettingsScreen = '/settings';
