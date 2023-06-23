@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nav_rail_store/screens/favouritesscreen.dart';
 import 'package:nav_rail_store/screens/feedscreen.dart';
 import 'package:nav_rail_store/screens/settingsscreen.dart';
+import 'package:nav_rail_store/screens/storagescreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,7 +13,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  final List<Widget> _screens = [
+    const StorageScreen(),
+    const FeedScreen(),
+    const FavoritesScreen(),
+    const SettingsScreen()
+  ];
+
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,19 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
           NavigationRail(
               onDestinationSelected: (int index) {
                 setState(() {
-                  _selectedIndex = index;
+                  selectedIndex = index;
                 });
               },
               destinations: [
                 NavigationRailDestination(
                   icon: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeScreen()),
-                      );
-                    },
+                    onTap: () {},
                     child: SvgPicture.asset(
                       'assets/home.svg',
                       width: 15,
@@ -49,11 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 NavigationRailDestination(
                   icon: GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const FeedScreen()),
-                      );
+                      const FeedScreen();
                     },
                     child: SvgPicture.asset(
                       'assets/feed.svg',
@@ -65,30 +63,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 NavigationRailDestination(
                   icon: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const FavoritesScreen()),
-                      );
-                    },
                     child: SvgPicture.asset(
                       'assets/favourite.svg',
                       width: 15,
                       height: 15,
                     ),
                   ),
-                  label: const Text('Favourites'),
+                  label: const Text('Favourite'),
                 ),
                 NavigationRailDestination(
                   icon: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SettingsScreen()),
-                      );
-                    },
                     child: SvgPicture.asset(
                       'assets/settings.svg',
                       width: 15,
@@ -112,8 +96,8 @@ class _HomeScreenState extends State<HomeScreen> {
               labelType: NavigationRailLabelType.all,
               selectedLabelTextStyle: const TextStyle(color: Colors.teal),
               unselectedLabelTextStyle: const TextStyle(),
-              selectedIndex: _selectedIndex),
-          // Expanded(child: _screens[_selectedIndex])
+              selectedIndex: selectedIndex),
+          Expanded(child: _screens[selectedIndex])
         ],
       ),
     );
